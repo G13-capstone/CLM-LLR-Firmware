@@ -1,0 +1,12 @@
+# Hashes of file build rules.
+4c429cb38bdc68e347a6e9a17ee25f2c CMakeFiles/minimal-asm
+4c429cb38bdc68e347a6e9a17ee25f2c CMakeFiles/minimal-hex
+4c429cb38bdc68e347a6e9a17ee25f2c CMakeFiles/minimal-hex-final
+4c429cb38bdc68e347a6e9a17ee25f2c CMakeFiles/minimal-main
+4c429cb38bdc68e347a6e9a17ee25f2c CMakeFiles/minimal-opt
+4c429cb38bdc68e347a6e9a17ee25f2c CMakeFiles/minimal-s
+e6eb2f9fe42f68164e2b5e56bdd4778f code.asm
+008c09509488400a44c3864d6ad91a02 minimal.hex
+d4316c89aed95de1a1f9348edb0425fe minimal.main
+37ff9fb96243ef52f52f29f4352138a8 minimal.opt
+35affb4f3693d65405a36c599c940cf5 minimal.s
