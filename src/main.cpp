@@ -4,6 +4,7 @@
 #include <Thread.h>
 
 #include "main.h"
+#include "command_handler.h"
 
 // sys_clock_wait can only wait a maximum of 65535 ticks
 // use a loop to get a longer delay.
@@ -21,6 +22,7 @@ int main(void)
   // Serves as the basic UAOS, which will eventually carry out any intended features
   uint16_t count = 0;
   while (true) {
+    print_test();
     xpd_puts("Hello, world!\n");
     xpd_puts("Loop counter is: ");
     xpd_echo_int(count, XPD_Flag_UnsignedDecimal);
