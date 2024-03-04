@@ -1,0 +1,88 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../inc/main.h
+
+C:/Program Files/SXC/include/sxc-lib/IOConfig.h
+SXC.h
+C:/Program Files/SXC/include/sxc-lib/SXC.h
+register_consts.h
+C:/Program Files/SXC/include/sxc-lib/register_consts.h
+
+C:/Program Files/SXC/include/sxc-lib/SXC.h
+stdint.h
+-
+stddef.h
+-
+__Macros.h
+C:/Program Files/SXC/include/sxc-lib/__Macros.h
+assert.h
+-
+
+C:/Program Files/SXC/include/sxc-lib/SystemClock.h
+Timer.h
+C:/Program Files/SXC/include/sxc-lib/Timer.h
+
+C:/Program Files/SXC/include/sxc-lib/Timer.h
+SXC.h
+C:/Program Files/SXC/include/sxc-lib/SXC.h
+register_consts.h
+C:/Program Files/SXC/include/sxc-lib/register_consts.h
+
+C:/Program Files/SXC/include/sxc-lib/__Macros.h
+
+C:/Program Files/SXC/include/sxc-lib/register_consts.h
+stdint.h
+-
+
+C:/Program Files/SXC/include/sxc-newlib/_ansi.h
+newlib.h
+-
+sys/config.h
+-
+
+C:/Program Files/SXC/include/sxc-newlib/assert.h
+_ansi.h
+C:/Program Files/SXC/include/sxc-newlib/_ansi.h
+
+C:/Program Files/SXC/include/sxc-newlib/limits.h
+newlib.h
+-
+sys/config.h
+-
+
+C:/Program Files/SXC/include/sxc-newlib/machine/ieeefp.h
+
+C:/Program Files/SXC/include/sxc-newlib/newlib.h
+
+C:/Program Files/SXC/include/sxc-newlib/stddef.h
+
+C:/Program Files/SXC/include/sxc-newlib/stdint.h
+_ansi.h
+-
+limits.h
+-
+
+C:/Program Files/SXC/include/sxc-newlib/sys/config.h
+machine/ieeefp.h
+-
+sys/features.h
+-
+cygwin/config.h
+-
+
+C:/Program Files/SXC/include/sxc-newlib/sys/features.h
+
+C:/Users/danie/Documents/Uni notes/Year 5/Winter/ECE 492/code/sxc-c-example/src/Initialization.cpp
+SystemClock.h
+-
+IOConfig.h
+-
+main.h
+C:/Users/danie/Documents/Uni notes/Year 5/Winter/ECE 492/code/sxc-c-example/src/main.h
+
