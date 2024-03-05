@@ -12,6 +12,9 @@ set (SXC_INLINE_THRESHOLD "15" CACHE STRING
   "Inline threshold for compiling firmware")
 set (SXC_UNROLL_THRESHOLD "20" CACHE STRING
   "Unroll threshold for compiling firmware")
+
+cmake_policy(SET CMP0074 NEW)
+
 find_package(SXC REQUIRED)
 include_directories(${SXC_INCLUDE_DIRS})
 include(SXCMacros)
