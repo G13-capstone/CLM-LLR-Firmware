@@ -6,9 +6,8 @@ int print_test(void);
 class CommandHandler {
     private:
         bool CLI_printed = false;
-
+        void print_CLI(void);
     public:
-        void print_CLI(void); // move to priv after testing
         void handle_command(void);
 };
 

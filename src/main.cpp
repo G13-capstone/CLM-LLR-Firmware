@@ -20,18 +20,11 @@ int main(void)
 {
   // Loop, printing Hello, World as well as a number, which increments every loop
   // Serves as the basic UAOS, which will eventually carry out any intended features
-  // uint16_t count = 0;
   CommandHandler commandHandler = CommandHandler();
   while (true) {
-    print_test();
-    commandHandler.print_CLI(); // prints
-    commandHandler.handle_command(); // shouldn't print
-    // xpd_puts("Hello, world!\n");
-    // xpd_puts("Loop counter is: ");
-    // xpd_echo_int(count, XPD_Flag_UnsignedDecimal);
-    xpd_putc('\n');
+    // print_test();
+    commandHandler.handle_command(); // Shouldn't print twice
     long_wait();
-    // count += 1;
   }
 
   return 0;
