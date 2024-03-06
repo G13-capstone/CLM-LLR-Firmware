@@ -20,7 +20,7 @@ int main(void)
 {
   // Loop, printing Hello, World as well as a number, which increments every loop
   // Serves as the basic UAOS, which will eventually carry out any intended features
-  uint16_t count = 0;
+  // uint16_t count = 0;
   CommandHandler commandHandler = CommandHandler();
   while (true) {
     print_test();

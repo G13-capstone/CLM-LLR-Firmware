@@ -14,14 +14,14 @@ int print_test(void) {
 }
 
 // Prints "UAOS CLI: " if it wasn't printed before
-CommandHandler::print_CLI(void) {
+void CommandHandler::print_CLI(void) {
     if (CLI_printed) {
         xpd_puts("UAOS CLI: ");
         CLI_printed = true;
     }
 }
 
-CommandHandler::handle_command(void) {
+void CommandHandler::handle_command(void) {
     xpd_puts("debug");
     print_CLI();
     xpd_puts("debug2");
