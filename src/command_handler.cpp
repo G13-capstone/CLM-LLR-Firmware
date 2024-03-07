@@ -35,14 +35,14 @@ void CommandHandler::handle_command(void) {
         char input[MAX_COMMAND_LENGTH] = "ScRatCh test.py";
         
         // Parse commands into tokens (for arguments)
-        char * inputToken = strtok(input, " ");
+        // char * inputToken = strtok(input, " "); // TODO: strtok() and tolower() aren't supported by XInC2 assembly, replace them
         char * inputTokens[MAX_INPUT_TOKENS];
-        int i = 0;
-        while (inputToken != NULL) {
-            inputTokens[i] = inputToken;
-            inputToken = strtok(NULL, " ");
-            i++;
-        }
+        // int i = 0;
+        // while (inputToken != NULL) {
+        //     inputTokens[i] = inputToken;
+        //     inputToken = strtok(NULL, " ");
+        //     i++;
+        // }
 
         // Debug, may or may not print properly
         xpd_puts("Input read: ");
@@ -51,10 +51,10 @@ void CommandHandler::handle_command(void) {
         xpd_puts("\n");
 
         // Force actual command to lowercase (not arguments)
-        char *commandName = inputTokens[0];
-        for (int j = 0; j < strlen(commandName); j++) {
-            commandName[j] = tolower(commandName[j]);
-        }
+        // char *commandName = inputTokens[0];
+        // for (int j = 0; j < strlen(commandName); j++) {
+        //     commandName[j] = tolower(commandName[j]);
+        // }
 
         // Debug, may or may not print properly
         xpd_puts("Input forced to lowercase: ");
