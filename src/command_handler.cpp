@@ -18,7 +18,7 @@ int print_test(void) {
 // Prints "UAOS CLI: " if it wasn't printed before
 void CommandHandler::print_CLI(void) {
     if (!CLI_printed) {
-        xpd_puts("UAOS CLI: ScRatCh test.py");
+        xpd_puts("\nUAOS CLI: ScRatCh test.py");
         CLI_printed = true;
     }
 }
@@ -32,34 +32,54 @@ void CommandHandler::handle_command(void) {
     if (input_entered) {
         // If there's an entered command, then handle it
         // Get command (hardcode command for now)
-        char input[MAX_COMMAND_LENGTH] = "ScRatCh test.py";
+        char input[MAX_COMMAND_LENGTH + MAX_ARGUMENT_LENGTH * MAX_ARGUMENTS] = "ScRatCh test.py";
         
         // Parse commands into tokens (for arguments)
-        // char * inputToken = strtok(input, " "); // TODO: strtok() and tolower() aren't supported by XInC2 assembly, replace them
-        char * inputTokens[MAX_INPUT_TOKENS];
-        // int i = 0;
-        // while (inputToken != NULL) {
-        //     inputTokens[i] = inputToken;
-        //     inputToken = strtok(NULL, " ");
-        //     i++;
-        // }
+        char inputTokens[MAX_INPUT_TOKENS][MAX_ARGUMENT_LENGTH];
+        int i = 0; // For characters in input
+        int j = 0; // For argument tokens
+        int k = 0; // For characters of argument tokens
+        while (input[i] != '\0') {
+            if (input[i] == ' ') {
+                inputTokens[j][k] = '\0';
+                j++;
+                k = 0;
+            } else {
+                inputTokens[j][k] = input[i];
+                k++;
+            }
+            i++;
+        }
+        inputTokens[j][k] = '\0';
 
         // Debug, may or may not print properly
-        xpd_puts("Input read: ");
+        xpd_puts("\nInput tokens: ");
         xpd_puts(inputTokens[0]);
+        xpd_puts(", ");
         xpd_puts(inputTokens[1]);
         xpd_puts("\n");
 
+        char *command = inputTokens[0];
+        char *argument = inputTokens[1];
+        xpd_puts("Command: ");
+        xpd_puts(command);
+        xpd_puts("\n");
+        xpd_puts("Argument: ");
+        xpd_puts(argument);
+        xpd_puts("\n");
+
         // Force actual command to lowercase (not arguments)
-        // char *commandName = inputTokens[0];
-        // for (int j = 0; j < strlen(commandName); j++) {
-        //     commandName[j] = tolower(commandName[j]);
-        // }
+        int l = 0;
+        while (input[l] != '\0') {
+            if (input[l] >= 'A' && input[l] <= 'Z') {
+                input[l] += 32;
+            }
+            l++;
+        }
 
         // Debug, may or may not print properly
         xpd_puts("Input forced to lowercase: ");
-        xpd_puts(inputTokens[0]);
-        xpd_puts(inputTokens[1]);
+        xpd_puts(input);
         xpd_puts("\n");
         
         // Validate command by trying to find it in the command library
