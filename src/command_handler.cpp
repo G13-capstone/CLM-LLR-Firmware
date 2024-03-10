@@ -18,7 +18,7 @@ int print_test(void) {
 // Prints "UAOS CLI: " if it wasn't printed before
 void CommandHandler::print_CLI(void) {
     if (!CLI_printed) {
-        xpd_puts("\nUAOS CLI: ScRatCh test.py");
+        xpd_puts("\nUAOS CLI: ScRatCh test.py arg2 arg3 arg4");
         CLI_printed = true;
     }
 }
@@ -32,7 +32,7 @@ void CommandHandler::handle_command(void) {
     if (input_entered) {
         // If there's an entered command, then handle it
         // Get command (hardcode command for now)
-        char input[MAX_COMMAND_LENGTH + MAX_ARGUMENT_LENGTH * MAX_ARGUMENTS] = "ScRatCh test.py";
+        char input[MAX_COMMAND_LENGTH + MAX_ARGUMENT_LENGTH * MAX_ARGUMENTS] = "ScRatCh test.py arg2 arg3 arg4";
         
         // Parse commands into tokens (for arguments)
         char inputTokens[MAX_INPUT_TOKENS][MAX_ARGUMENT_LENGTH];
@@ -54,32 +54,44 @@ void CommandHandler::handle_command(void) {
 
         // Debug, may or may not print properly
         xpd_puts("\nInput tokens: ");
-        xpd_puts(inputTokens[0]);
-        xpd_puts(", ");
-        xpd_puts(inputTokens[1]);
+        int argInd1 = 0;
+        while (argInd1 <= j) {
+            xpd_puts(inputTokens[argInd1]);
+            xpd_puts(", ");
+            argInd1++;
+        }
         xpd_puts("\n");
 
         char *command = inputTokens[0];
-        char *argument = inputTokens[1];
+        // char *argument = inputTokens[1];
         xpd_puts("Command: ");
         xpd_puts(command);
         xpd_puts("\n");
-        xpd_puts("Argument: ");
-        xpd_puts(argument);
+        // xpd_puts("Argument: ");
+        // xpd_puts(argument);
+        // xpd_puts("\n");
+
+        xpd_puts("Arguments: ");
+        int argInd2 = 1;
+        while (argInd2 <= j) {
+            xpd_puts(inputTokens[argInd2]);
+            xpd_puts(", ");
+            argInd2++;
+        }
         xpd_puts("\n");
 
         // Force actual command to lowercase (not arguments)
         int l = 0;
-        while (input[l] != '\0') {
-            if (input[l] >= 'A' && input[l] <= 'Z') {
-                input[l] += 32;
+        while (command[l] != '\0') {
+            if (command[l] >= 'A' && command[l] <= 'Z') {
+                command[l] += 32;
             }
             l++;
         }
 
         // Debug, may or may not print properly
-        xpd_puts("Input forced to lowercase: ");
-        xpd_puts(input);
+        xpd_puts("Command forced to lowercase: ");
+        xpd_puts(command);
         xpd_puts("\n");
         
         // Validate command by trying to find it in the command library
