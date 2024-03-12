@@ -14,6 +14,7 @@ class CommandHandler {
         bool input_entered = true; // flag used for dev/debug
         void print_CLI(void);
     public:
+        void get_input(void);
         void handle_command(void);
 };
 

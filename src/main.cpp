@@ -23,7 +23,8 @@ int main(void)
   CommandHandler commandHandler = CommandHandler();
   while (true) {
     // print_test();
-    commandHandler.handle_command(); // Shouldn't print twice
+    // commandHandler.handle_command(); // Shouldn't print twice
+    commandHandler.get_input();
     long_wait();
   }
 

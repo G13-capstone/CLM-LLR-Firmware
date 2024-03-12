@@ -23,6 +23,47 @@ void CommandHandler::print_CLI(void) {
     }
 }
 
+void CommandHandler::get_input(void) {
+    char testInput[MAX_COMMAND_LENGTH + MAX_ARGUMENT_LENGTH * MAX_ARGUMENTS];
+    char c;
+    int i = 0;
+    char timeout = 0xFF;
+    // char test[10] = "testStr";
+    // xpd_puts(test); // works
+    // xpd_putc('\n');
+    xpd_puts("CLI: ");
+    while (true) {
+        c = xpd_getchar_timeout(10000); // TODO = replace "magic" num w/ macro
+        // xpd_putc(c);
+        testInput[i] = c;
+        // xpd_putc(testInput[i]);
+
+        if (c == timeout) {
+            xpd_puts("Timeout! ");
+            continue;
+        } else if (c == '\n') {
+            testInput[i] = '\0';
+            break;
+        } else {
+            testInput[i] = c;
+            xpd_putc(testInput[i]);
+            i++;
+        }
+        // if ((signed int)c == 0xFF) {
+        //     continue;
+        //     xpd_puts("a");
+        // } else if (c != '\n') {
+        //     testInput[i] = c;
+        //     i++;
+        // } else {
+        //     testInput[i] = '\0';
+        //     i = 0;
+        //     break;
+        // }
+    }
+    xpd_puts(testInput);
+}
+
 // Handles incoming commands
 void CommandHandler::handle_command(void) {
     // Doesn't print if it's already in the terminal
@@ -95,7 +136,7 @@ void CommandHandler::handle_command(void) {
         xpd_puts("\n");
         
         // Validate command by trying to find it in the command library
-
+            // Call function with switch statement
             // If function found, execute it
 
                 // If there's an error during execution, print error
