@@ -11,7 +11,8 @@ int print_test(void);
 class CommandHandler {
     private:
         bool CLI_printed = false;
-        bool input_entered = true; // flag used for dev/debug
+        bool input_entered = false; // flag used for dev/debug
+        char input[MAX_COMMAND_LENGTH + MAX_ARGUMENT_LENGTH * MAX_ARGUMENTS] = "hello world";
         void print_CLI(void);
     public:
         void get_input(void);

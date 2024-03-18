@@ -1,80 +1,52 @@
-// #include <SystemClock.h>
 #include <XPD.h>
-// #include <GPIO.h>
-#include <string.h> // for strtok
-#include <cctype> // For tolower()
-using namespace std;
-
-// #include "main.h"
-#include "command_handler.h" // ???
-
-// Test function to check if external functions can be used from main
-int print_test(void) {
-    xpd_puts("Test!\n");
-
-    return 0;
-}
+#include "command_handler.h"
 
 // Prints "UAOS CLI: " if it wasn't printed before
 void CommandHandler::print_CLI(void) {
     if (!CLI_printed) {
-        xpd_puts("\nUAOS CLI: ScRatCh test.py arg2 arg3 arg4");
+        xpd_puts("\nUAOS CLI: ");
         CLI_printed = true;
     }
 }
 
+// Gets input from the MinGW terminal via the XPD
 void CommandHandler::get_input(void) {
-    char testInput[MAX_COMMAND_LENGTH + MAX_ARGUMENT_LENGTH * MAX_ARGUMENTS];
     char c;
     int i = 0;
     char timeout = 0xFF;
-    // char test[10] = "testStr";
-    // xpd_puts(test); // works
-    // xpd_putc('\n');
-    xpd_puts("CLI: ");
+    print_CLI();
     while (true) {
-        c = xpd_getchar_timeout(10000); // TODO = replace "magic" num w/ macro
-        // xpd_putc(c);
-        testInput[i] = c;
-        // xpd_putc(testInput[i]);
+        // xpd_getchar_timeout() is pretty buggy...
+        // c = xpd_getchar_timeout(10000); // TODO = replace "magic" num w/ macro
+        c = xpd_getchar();
 
         if (c == timeout) {
-            xpd_puts("Timeout! ");
+            xpd_puts("\nTimeout!\n");
             continue;
         } else if (c == '\n') {
-            testInput[i] = '\0';
+            input[i] = '\0';
+            // Flag that there's input to be processed
+            input_entered = true;
+            // xpd_puts("\nbreak!\n"); // debug
             break;
         } else {
-            testInput[i] = c;
-            xpd_putc(testInput[i]);
+            input[i] = c;
             i++;
         }
-        // if ((signed int)c == 0xFF) {
-        //     continue;
-        //     xpd_puts("a");
-        // } else if (c != '\n') {
-        //     testInput[i] = c;
-        //     i++;
-        // } else {
-        //     testInput[i] = '\0';
-        //     i = 0;
-        //     break;
-        // }
     }
-    xpd_puts(testInput);
+    // Debug
+    // xpd_puts("Input: ");
+    // xpd_puts(input);
+    // xpd_putc('\n');
 }
 
 // Handles incoming commands
-void CommandHandler::handle_command(void) {
-    // Doesn't print if it's already in the terminal
-    print_CLI();
-
-    // Check terminal for entered command
+void CommandHandler::handle_command(void) {  
+    // Get input from terminal
+    get_input();
+    // input_entered = true; // debug
     if (input_entered) {
-        // If there's an entered command, then handle it
-        // Get command (hardcode command for now)
-        char input[MAX_COMMAND_LENGTH + MAX_ARGUMENT_LENGTH * MAX_ARGUMENTS] = "ScRatCh test.py arg2 arg3 arg4";
-        
+        // input[0] = '\0'; // debug
         // Parse commands into tokens (for arguments)
         char inputTokens[MAX_INPUT_TOKENS][MAX_ARGUMENT_LENGTH];
         int i = 0; // For characters in input
@@ -104,13 +76,9 @@ void CommandHandler::handle_command(void) {
         xpd_puts("\n");
 
         char *command = inputTokens[0];
-        // char *argument = inputTokens[1];
         xpd_puts("Command: ");
         xpd_puts(command);
         xpd_puts("\n");
-        // xpd_puts("Argument: ");
-        // xpd_puts(argument);
-        // xpd_puts("\n");
 
         xpd_puts("Arguments: ");
         int argInd2 = 1;
@@ -143,9 +111,12 @@ void CommandHandler::handle_command(void) {
 
             // If function not found, print not found
 
+        // Reset flags
     } 
     // If there's no entered command, do nothing
 
     // Debug. Run handle_command only once
+    // input_entered = false;
+    CLI_printed = false;
     input_entered = false;
 }

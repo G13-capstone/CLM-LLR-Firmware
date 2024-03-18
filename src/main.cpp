@@ -18,13 +18,10 @@ void long_wait()
 // main() runs in thread 0
 int main(void)
 {
-  // Loop, printing Hello, World as well as a number, which increments every loop
-  // Serves as the basic UAOS, which will eventually carry out any intended features
+  // Loop serves as the basic UAOS, which will eventually carry out any intended features
   CommandHandler commandHandler = CommandHandler();
   while (true) {
-    // print_test();
-    // commandHandler.handle_command(); // Shouldn't print twice
-    commandHandler.get_input();
+    commandHandler.handle_command(); 
     long_wait();
   }
 
