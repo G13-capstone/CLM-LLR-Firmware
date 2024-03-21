@@ -22,7 +22,8 @@ int main(void)
   CommandHandler commandHandler = CommandHandler();
   while (true) {
     commandHandler.handle_command(); 
-    long_wait();
+    long_wait(); // Slows down the loop, can be removed if loop needs to be faster
+    commandHandler.loop_counter += 1; // Debug, used to show that CommandHandler doesn't stall UAOS when gett
   }
 
   return 0;

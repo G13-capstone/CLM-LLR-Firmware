@@ -6,8 +6,6 @@
 #define MAX_ARGUMENT_LENGTH 30 // in characters
 #define MAX_INPUT_TOKENS (1 + MAX_ARGUMENTS)
 
-int print_test(void);
-
 class CommandHandler {
     private:
         bool CLI_printed = false;
@@ -17,6 +15,7 @@ class CommandHandler {
     public:
         void get_input(void);
         void handle_command(void);
+        int loop_counter = 0; // Debug
 };
 
 #endif // __COMMAND_HANDLER_H__

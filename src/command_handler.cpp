@@ -13,40 +13,36 @@ void CommandHandler::print_CLI(void) {
 void CommandHandler::get_input(void) {
     char c;
     int i = 0;
-    char timeout = 0xFF;
+    int timeout = -1;
     print_CLI();
     while (true) {
-        // xpd_getchar_timeout() is pretty buggy...
-        // c = xpd_getchar_timeout(10000); // TODO = replace "magic" num w/ macro
-        c = xpd_getchar();
+        // Get input char by char
+        c = xpd_getchar_timeout(10000);
 
+        // Check what input was returned
         if (c == timeout) {
-            xpd_puts("\nTimeout!\n");
-            continue;
+            // Explicitly flag that there's no input
+            input_entered = false;
+            break;
         } else if (c == '\n') {
+            // New line means the end of an entered input
             input[i] = '\0';
             // Flag that there's input to be processed
             input_entered = true;
-            // xpd_puts("\nbreak!\n"); // debug
             break;
         } else {
+            // Build the input string char by char
             input[i] = c;
             i++;
         }
     }
-    // Debug
-    // xpd_puts("Input: ");
-    // xpd_puts(input);
-    // xpd_putc('\n');
 }
 
 // Handles incoming commands
 void CommandHandler::handle_command(void) {  
     // Get input from terminal
     get_input();
-    // input_entered = true; // debug
     if (input_entered) {
-        // input[0] = '\0'; // debug
         // Parse commands into tokens (for arguments)
         char inputTokens[MAX_INPUT_TOKENS][MAX_ARGUMENT_LENGTH];
         int i = 0; // For characters in input
@@ -112,11 +108,14 @@ void CommandHandler::handle_command(void) {
             // If function not found, print not found
 
         // Reset flags
+        CLI_printed = false;
+        input_entered = false;
+
+        // Debug - Show what loop the command is processed on
+        xpd_puts("Command processed on loop: ");
+        xpd_echo_int(loop_counter, XPD_Flag_SignedDecimal);
+        xpd_puts("\n");
     } 
     // If there's no entered command, do nothing
-
-    // Debug. Run handle_command only once
-    // input_entered = false;
-    CLI_printed = false;
-    input_entered = false;
+    
 }
