@@ -22,22 +22,31 @@ void puts(IO &io, const char *c) {
   }
 }
 
+void putc(IO &io, const char c) {
+  io.write_byte(c);
+}
+
+char getc(IO &io) {
+  return io.read_byte();
+}
+
 // main() runs in thread 0
 int main(void)
 {
   // Loop, printing Hello, World as well as a number, which increments every loop
   // Serves as the basic UAOS, which will eventually carry out any intended features
-  uint16_t count = 0;
-  Uart_IO uart_io_driver = Uart_IO::Uart_IO(GPIO_C, 6, Uart_IO::BAUD_115200);
+  //uint16_t count = 0;
+  Uart_IO uart_io_driver = Uart_IO::Uart_IO(GPIO_C, 6, GPIO_C, 7, Uart_IO::BAUD_9600);
+  puts(uart_io_driver, "Hello\r\n");
   while (true) {
-    xpd_puts("Hello, world!\n");
-    xpd_puts("Loop counter is: ");
-    xpd_echo_int(count, XPD_Flag_UnsignedDecimal);
-    xpd_putc('\n');
-    long_wait();
-    count += 1;
-
-    puts(uart_io_driver, "Hello\r\n");
+    char c =  getc(uart_io_driver);
+    if ('a' <= c && c <= 'z') {
+      c = 'A' + c - 'a';
+    } else if ('A' <= c && c <= 'Z') {
+      c = 'a' + c - 'A';
+    }
+    putc(uart_io_driver, c);
+    puts(uart_io_driver, "\r\n");
   }
 
   return 0;

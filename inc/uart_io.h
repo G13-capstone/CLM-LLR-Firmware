@@ -8,12 +8,16 @@ public:
 		BAUD_115200
 	};
 
-	Uart_IO(GPIO_port_name tx_port, int tx_pin, enum UART_BAUD baudrate);
+	Uart_IO(GPIO_port_name tx_port, int tx_pin, GPIO_port_name rx_port,
+		int rx_pin, enum UART_BAUD baudrate);
 	void write_byte(char) override;
+	char read_byte() override;
 
 private:
 	GPIO_port_name tx_port;
 	int tx_pin;
+	GPIO_port_name rx_port;
+	int rx_pin;
 	int periodTicks;
 	
 	uint16_t calculatePeriodTicks(UART_BAUD baudrate);
