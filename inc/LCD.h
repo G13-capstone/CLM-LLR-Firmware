@@ -4,10 +4,11 @@
 #include <SystemClock.h>
 #include <XPD.h>
 #include <GPIO.h>
-#include <Thread.h>
 #include <SPI.h>
 //#include "main.h"
 #include "time_funcs.h"
+#include "io.h"
+
 namespace LCD_Functions {
 	enum class DisplaySettings : uint16_t {
 		// Show Cursor, Blink, Display disable
@@ -38,8 +39,16 @@ namespace LCD_Functions {
 }
 
 template<LCD_Functions::DisplaySettings DISPLAYMODE, LCD_Functions::CursorSettings CURSORMODE, LCD_Functions::CursorBlink BlinkMode, LCD_Functions::Cursor_Line CURSORLINE>
-class LCD_STARTUP {
+class LCD_STARTUP : public IO {
 public:
+	char read_byte(void) override {
+		return 0;
+	}
+
+	void write_byte(char c) {
+		writeChar((uint16_t)c);
+	}
+
 	// Settings of display, cursor and blinking via flags
 	void setDisplayMode()
 	{
