@@ -4,6 +4,7 @@
 class Uart_IO : public IO {
 public:
 	enum UART_BAUD {
+		BAUD_9600,
 		BAUD_115200
 	};
 

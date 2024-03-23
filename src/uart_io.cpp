@@ -32,7 +32,12 @@ void Uart_IO::write_byte(char c) {
 }
 
 uint16_t Uart_IO::calculatePeriodTicks(enum UART_BAUD baudrate) {
-	return 853 - 288 + 16; // 98.304 MHz / 115200 baud - overhead cycles
+	switch (baudrate) {
+	case BAUD_9600:
+		return 10240 - 288 + 16;
+	case BAUD_115200:
+		return 853 - 288 + 16; // 98.304 MHz / 115200 baud - overhead cycles
+	}
 }
 
 void Uart_IO::setup_gpio_pins(void) {
