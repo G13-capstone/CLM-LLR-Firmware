@@ -1,3 +1,6 @@
+#ifndef _UART_IO_H_
+#define _UART_IO_H_
+
 #include <Structs.h>
 #include "io.h"
 
@@ -23,3 +26,4 @@ private:
 	uint16_t calculatePeriodTicks(UART_BAUD baudrate);
 	void setup_gpio_pins(void);
 };
+#endif // _UART_IO_H_
