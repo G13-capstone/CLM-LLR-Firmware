@@ -73,29 +73,31 @@ void CommandHandler::handle_command(void) {
         }
         inputTokens[j][k] = '\0';
 
-        // Debug, may or may not print properly
-        xpd_puts("\nInput tokens: ");
-        int argInd1 = 0;
-        while (argInd1 <= j) {
-            xpd_puts(inputTokens[argInd1]);
-            xpd_puts(", ");
-            argInd1++;
-        }
-        xpd_puts("\n");
+        // Debug for token printing
+        // xpd_puts("\nInput tokens: ");
+        // int argInd1 = 0;
+        // while (argInd1 <= j) {
+        //     xpd_puts(inputTokens[argInd1]);
+        //     xpd_puts(", ");
+        //     argInd1++;
+        // }
+        // xpd_puts("\n");
 
         char *command = inputTokens[0];
-        xpd_puts("Command: ");
-        xpd_puts(command);
-        xpd_puts("\n");
+        // Debug for command print
+        // xpd_puts("Command: ");
+        // xpd_puts(command);
+        // xpd_puts("\n");
 
-        xpd_puts("Arguments: ");
-        int argInd2 = 1;
-        while (argInd2 <= j) {
-            xpd_puts(inputTokens[argInd2]);
-            xpd_puts(", ");
-            argInd2++;
-        }
-        xpd_puts("\n");
+        // Debug print for arguments
+        // xpd_puts("Arguments: ");
+        // int argInd2 = 1;
+        // while (argInd2 <= j) {
+        //     xpd_puts(inputTokens[argInd2]);
+        //     xpd_puts(", ");
+        //     argInd2++;
+        // }
+        // xpd_puts("\n");
 
         // Force actual command to lowercase (not arguments)
         int l = 0;
@@ -107,16 +109,16 @@ void CommandHandler::handle_command(void) {
         }
 
         // Debug, may or may not print properly
-        xpd_puts("Command forced to lowercase: ");
-        xpd_puts(command);
-        xpd_puts("\n");
+        // xpd_puts("Command forced to lowercase: ");
+        // xpd_puts(command);
+        // xpd_puts("\n");
         
         // Validate command by trying to find it in the command library
             // Call function with switch statement
             // If function found, execute it
             
             // Debug for command recognition
-            if (compare_string(command, "cat")) {
+            if (compare_string(command, "touch")) {
                 xpd_puts(inputTokens[1]);
                 xpd_puts(" created.\n");
             }
