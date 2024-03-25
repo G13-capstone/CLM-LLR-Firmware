@@ -42,12 +42,13 @@ int main(void)
   // Serves as the basic UAOS, which will eventually carry out any intended features
   //uint16_t count = 0;
   Uart_IO uart_io_driver = Uart_IO::Uart_IO(GPIO_C, 6, GPIO_C, 7, Uart_IO::BAUD_9600);
+  Uart_IO keyboard_io_driver = Uart_IO::Uart_IO(GPIO_C, 5, GPIO_C, 4, Uart_IO::BAUD_9600);
   L lcd_io_driver;
 
   puts(uart_io_driver, "Hello\r\n");
 
   while (true) {
-    int c = getc(uart_io_driver);
+    int c = getc(keyboard_io_driver);
     if (c >= 0) {
       if ('a' <= c && c <= 'z') {
         c = 'A' + c - 'a';

@@ -59,6 +59,9 @@ int Uart_IO::read_byte() {
 
 	// Wait for stop bit
 	while ((gpio_read(this->rx_port) & pin_mask) == 0);
+	if (c == 0) {
+		return -1;
+	}
 	return c;
 }
 
