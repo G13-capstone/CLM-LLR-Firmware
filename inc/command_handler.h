@@ -6,6 +6,8 @@
 #define MAX_ARGUMENT_LENGTH 30 // in characters
 #define MAX_INPUT_TOKENS (1 + MAX_ARGUMENTS)
 
+bool compare_string(char *str1, char *str2);
+
 class CommandHandler {
     private:
         bool CLI_printed = false;

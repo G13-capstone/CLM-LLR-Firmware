@@ -1,5 +1,6 @@
 #include <XPD.h>
 #include "command_handler.h"
+#include "main.h"
 
 bool compare_string(char *str1, char *str2) {
     int i = 0;
