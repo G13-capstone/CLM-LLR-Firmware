@@ -44,18 +44,6 @@ int main(void)
   Uart_IO uart_io_driver = Uart_IO::Uart_IO(GPIO_C, 6, GPIO_C, 7, Uart_IO::BAUD_9600);
   L lcd_io_driver;
 
-  SPI_set_config((SPI_ENABLE | SPI_MASTER | SPI_CLK_RATE_DIV_256) & ~(SPI_CLK_PHASE | SPI_CLK_IDLE_AT_1), SPI0);
-  gpio_set_config(gpio_get_config(GPIO_C) | (0x0C << 8), GPIO_C); // PC3 will be used as the Reset Pin, PC2 is Chip Select
-  ResetLCD();
-  // Set CS and reset high
-  gpio_write(gpio_get_output_reg(GPIO_C) | 0xC, GPIO_C);
-  lcd_io_driver.initializeDOGM204();
-  lcd_io_driver.setViewAngleTop();
-  lcd_io_driver.clrDisplay();
-  lcd_io_driver.setDisplayMode();
-  lcd_io_driver.setCursorMode();
-  lcd_io_driver.setBlinkMode();
-  lcd_io_driver.setCursor(0, 0);
   puts(uart_io_driver, "Hello\r\n");
 
   while (true) {

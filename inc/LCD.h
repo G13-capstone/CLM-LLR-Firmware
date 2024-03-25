@@ -41,6 +41,10 @@ namespace LCD_Functions {
 template<LCD_Functions::DisplaySettings DISPLAYMODE, LCD_Functions::CursorSettings CURSORMODE, LCD_Functions::CursorBlink BlinkMode, LCD_Functions::Cursor_Line CURSORLINE>
 class LCD_STARTUP : public IO {
 public:
+	LCD_STARTUP() {
+		init();
+	}
+
 	int read_byte(void) override {
 		return -1;
 	}
@@ -147,6 +151,25 @@ public:
 	    // int len = sizeof(myString) / sizeof(uint16_t);
 	    writeChar(myString);
 	}
+
+	void ResetLCD()
+	{
+		gpio_write(gpio_get_output_reg(GPIO_C) & ~(1 << 3), GPIO_C);
+		wait_ms(500);
+		gpio_write(gpio_get_output_reg(GPIO_C) | (1 << 3), GPIO_C);
+		wait_ms(100);
+	}
+
+	// Reset the LCD to its original state, once briefly to low at the RESET PIN of the LCD
+	// Select character set, with constants defined above
+	/*void setROMPAGE(unsigned uint16_t p_rompage)
+	{
+		writeIns(0x2A);
+		writeIns(0x72);
+		writeData(p_rompage);
+		writeIns(0x28);
+	}*/
+
 private:
 	void writeIns(uint16_t insCode)
 	{
@@ -171,23 +194,22 @@ private:
 		SPI_write_LSB((data & 0x0F), SPI0);        // send lower data bits
 		SPI_write_LSB(((data >> 4) & 0x0F), SPI0); // send higher data bits
 	}
-};
 
-// Reset the LCD to its original state, once briefly to low at the RESET PIN of the LCD
-void ResetLCD()
-{
-	gpio_write(gpio_get_output_reg(GPIO_C) & ~(1 << 3), GPIO_C);
-	wait_ms(500);
-	gpio_write(gpio_get_output_reg(GPIO_C) | (1 << 3), GPIO_C);
-	wait_ms(100);
-}
-// Select character set, with constants defined above
-/*void setROMPAGE(unsigned uint16_t p_rompage)
-{
-	writeIns(0x2A);
-	writeIns(0x72);
-	writeData(p_rompage);
-	writeIns(0x28);
-}*/
+	void init(void) {
+		SPI_set_config((SPI_ENABLE | SPI_MASTER | SPI_CLK_RATE_DIV_256) & ~(SPI_CLK_PHASE | SPI_CLK_IDLE_AT_1), SPI0);
+		gpio_set_config(gpio_get_config(GPIO_C) | (0x0C << 8), GPIO_C); // PC3 will be used as the Reset Pin, PC2 is Chip Select
+		ResetLCD();
+		// Set CS and reset high
+		gpio_write(gpio_get_output_reg(GPIO_C) | 0xC, GPIO_C);
+		initializeDOGM204();
+		setViewAngleTop();
+		clrDisplay();
+		setDisplayMode();
+		setCursorMode();
+		setBlinkMode();
+		setCursor(0, 0);
+	}
+
+};
 
 #endif // _LCD_H_
