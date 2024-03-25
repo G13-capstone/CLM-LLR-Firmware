@@ -1,6 +1,18 @@
 #include <XPD.h>
 #include "command_handler.h"
 
+bool compare_string(char *str1, char *str2) {
+    int i = 0;
+    while (true) {
+        if (str1[i] == '\0' && str2[i] == '\0') {
+            return true;
+        } else if (str1[i] != str2[i]) {
+            return false;
+        }
+        i++;
+    }
+}
+
 // Prints "UAOS CLI: " if it wasn't printed before
 void CommandHandler::print_CLI(void) {
     if (!CLI_printed) {
@@ -102,6 +114,12 @@ void CommandHandler::handle_command(void) {
         // Validate command by trying to find it in the command library
             // Call function with switch statement
             // If function found, execute it
+            
+            // Debug for command recognition
+            if (compare_string(command, "cat")) {
+                xpd_puts(inputTokens[1]);
+                xpd_puts(" created.\n");
+            }
 
                 // If there's an error during execution, print error
 
