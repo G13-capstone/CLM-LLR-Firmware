@@ -28,7 +28,7 @@ void putc(IO &io, const char c) {
   io.write_byte(c);
 }
 
-char getc(IO &io) {
+int getc(IO &io) {
   return io.read_byte();
 }
 
@@ -42,33 +42,24 @@ int main(void)
   // Serves as the basic UAOS, which will eventually carry out any intended features
   //uint16_t count = 0;
   Uart_IO uart_io_driver = Uart_IO::Uart_IO(GPIO_C, 6, GPIO_C, 7, Uart_IO::BAUD_9600);
-  puts(uart_io_driver, "Hello\r\n");
+  Uart_IO keyboard_io_driver = Uart_IO::Uart_IO(GPIO_C, 5, GPIO_C, 4, Uart_IO::BAUD_9600);
   L lcd_io_driver;
 
-  SPI_set_config((SPI_ENABLE | SPI_MASTER | SPI_CLK_RATE_DIV_256) & ~(SPI_CLK_PHASE | SPI_CLK_IDLE_AT_1), SPI0);
-  gpio_set_config(gpio_get_config(GPIO_C) | (0x0C << 8), GPIO_C); // PC3 will be used as the Reset Pin, PC2 is Chip Select
-  ResetLCD();
-  // Set CS and reset high
-  gpio_write(gpio_get_output_reg(GPIO_C) | 0xC, GPIO_C);
-  lcd_io_driver.initializeDOGM204();
-  lcd_io_driver.setViewAngleTop();
-  lcd_io_driver.clrDisplay();
-  lcd_io_driver.setDisplayMode();
-  lcd_io_driver.setCursorMode();
-  lcd_io_driver.setBlinkMode();
-  lcd_io_driver.setCursor(0, 0);
+  puts(uart_io_driver, "Hello\r\n");
 
   CommandHandler commandHandler = CommandHandler();
 
   while (true) {
-    char c =  getc(uart_io_driver);
-    if ('a' <= c && c <= 'z') {
-      c = 'A' + c - 'a';
-    } else if ('A' <= c && c <= 'Z') {
-      c = 'a' + c - 'A';
+    int c = getc(keyboard_io_driver);
+    if (c >= 0) {
+      if ('a' <= c && c <= 'z') {
+        c = 'A' + c - 'a';
+      } else if ('A' <= c && c <= 'Z') {
+        c = 'a' + c - 'A';
+      }
+      putc(uart_io_driver, c);
+      putc(lcd_io_driver, c);
     }
-    putc(uart_io_driver, c);
-    putc(lcd_io_driver, c);
     // command_handler.handle_command();
     // commandHandler.loop_counter++;
   }
