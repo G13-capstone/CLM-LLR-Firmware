@@ -41,8 +41,8 @@ namespace LCD_Functions {
 template<LCD_Functions::DisplaySettings DISPLAYMODE, LCD_Functions::CursorSettings CURSORMODE, LCD_Functions::CursorBlink BlinkMode, LCD_Functions::Cursor_Line CURSORLINE>
 class LCD_STARTUP : public IO {
 public:
-	char read_byte(void) override {
-		return 0;
+	int read_byte(void) override {
+		return -1;
 	}
 
 	void write_byte(char c) {

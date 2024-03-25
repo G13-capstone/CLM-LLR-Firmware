@@ -4,6 +4,6 @@
 class IO {
 public:
 	virtual void write_byte(char) = 0;
-	virtual char read_byte() = 0;
+	virtual int read_byte() = 0;
 };
 #endif // _IO_H_

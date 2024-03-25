@@ -34,12 +34,18 @@ void Uart_IO::write_byte(char c) {
 	internal_busy_wait(this->periodTicks);
 }
 
-char Uart_IO::read_byte() {
-	char c = 0;
+int Uart_IO::read_byte() {
+	int c = 0;
 	// Send start bit
 	uint16_t pin_mask = 1 << this->rx_pin;
 	// Poll for start bit
-	while ((gpio_read(this->rx_port) & pin_mask) != 0);
+	uint16_t timeout = 10000;
+	while ((gpio_read(this->rx_port) & pin_mask) != 0 && timeout > 0) {
+		timeout--;
+	}
+	if (timeout == 0) {
+		return -1;
+	}
 
 	// Wait for 1.5 cycles to sample during middle of first bit
 	internal_busy_wait(this->periodTicks + (_ror(this->periodTicks, 1)) & 0x7fff);

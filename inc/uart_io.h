@@ -14,7 +14,7 @@ public:
 	Uart_IO(GPIO_port_name tx_port, int tx_pin, GPIO_port_name rx_port,
 		int rx_pin, enum UART_BAUD baudrate);
 	void write_byte(char) override;
-	char read_byte() override;
+	int read_byte() override;
 
 private:
 	GPIO_port_name tx_port;
