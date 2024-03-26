@@ -3,10 +3,10 @@
 #include <GPIO.h>
 #include <Thread.h>
 
-#include "main.h"
 #include "command_handler.h"
 #include "uart_io.h"
 #include "LCD.h"
+#include "io.h"
 
 // sys_clock_wait can only wait a maximum of 65535 ticks
 // use a loop to get a longer delay.
@@ -15,21 +15,6 @@ void long_wait()
   for (int i = 0; i < 5000; ++i) {
     sys_clock_wait(10000);
   }
-}
-
-void puts(IO &io, const char *c) {
-  while(*c) {
-    io.write_byte(*c);
-    c++;
-  }
-}
-
-void putc(IO &io, const char c) {
-  io.write_byte(c);
-}
-
-int getc(IO &io) {
-  return io.read_byte();
 }
 
 using namespace LCD_Functions;
@@ -46,6 +31,7 @@ int main(void)
   L lcd_io_driver;
 
   puts(uart_io_driver, "Hello\r\n");
+  puts(lcd_io_driver, "hello");
 
   CommandHandler commandHandler = CommandHandler();
   char input[MAX_INPUT_TOKENS * MAX_ARGUMENT_LENGTH];
