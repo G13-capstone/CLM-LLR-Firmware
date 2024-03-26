@@ -1,6 +1,7 @@
 #include <XPD.h>
 #include "command_handler.h"
 #include "main.h"
+#include "io.h"
 
 bool compare_string(char *str1, char *str2) {
     int i = 0;
@@ -15,46 +16,49 @@ bool compare_string(char *str1, char *str2) {
 }
 
 // Prints "UAOS CLI: " if it wasn't printed before
-void CommandHandler::print_CLI(void) {
+void CommandHandler::print_CLI(IO &outputStream) {
     if (!CLI_printed) {
-        xpd_puts("\nUAOS CLI: ");
+        // xpd_puts("\nUAOS CLI: ");
+        puts(outputStream, "\rUAOS CLI: ");
         CLI_printed = true;
     }
 }
 
 // Gets input from the MinGW terminal via the XPD
-void CommandHandler::get_input(void) {
-    char c;
-    int i = 0;
-    int timeout = -1;
-    print_CLI();
+void CommandHandler::get_input(IO &inputStream, IO &outputStream) {
+    // print_CLI(outputStream); // Prints on top of other output
     while (true) {
         // Get input char by char
-        c = xpd_getchar_timeout(10000);
+        // c = xpd_getchar_timeout(10000);
+        int c = getc(inputStream);
 
         // Check what input was returned
-        if (c == timeout) {
-            // Explicitly flag that there's no input
+        if (c < 0) {
+            // getc timed out, so explicitly flag that there's no input
             input_entered = false;
             break;
-        } else if (c == '\n') {
-            // New line means the end of an entered input
-            input[i] = '\0';
+        } else if (c == '\r') {
+            // \r means the end of an entered input
+            input[charIndex] = '\0';
             // Flag that there's input to be processed
             input_entered = true;
+            charIndex = 0;
             break;
         } else {
             // Build the input string char by char
-            input[i] = c;
-            i++;
+            input[charIndex] = c;
+            // Display output to required display
+            putc(outputStream, input[charIndex]);
+            // For next char
+            charIndex++;
         }
     }
 }
 
 // Handles incoming commands
-void CommandHandler::handle_command(void) {  
+void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {  
     // Get input from terminal
-    get_input();
+    get_input(inputStream, outputStream);
     if (input_entered) {
         // Parse commands into tokens (for arguments)
         char inputTokens[MAX_INPUT_TOKENS][MAX_ARGUMENT_LENGTH];
@@ -120,8 +124,13 @@ void CommandHandler::handle_command(void) {
             
             // Debug for command recognition
             if (compare_string(command, "touch")) {
-                xpd_puts(inputTokens[1]);
-                xpd_puts(" created.\n");
+                putc(outputStream, '\r');
+                puts(outputStream, inputTokens[1]);
+                puts(outputStream, " created.\r");
+            } else {
+                puts(outputStream, "\r\"");
+                puts(outputStream, command);
+                puts(outputStream, "\" not found!\r");
             }
 
                 // If there's an error during execution, print error
@@ -133,9 +142,9 @@ void CommandHandler::handle_command(void) {
         input_entered = false;
 
         // Debug - Show what loop the command is processed on
-        xpd_puts("Command processed on loop: ");
-        xpd_echo_int(loop_counter, XPD_Flag_SignedDecimal);
-        xpd_puts("\n");
+        // xpd_puts("Command processed on loop: ");
+        // xpd_echo_int(loop_counter, XPD_Flag_SignedDecimal);
+        // xpd_puts("\n");
     } 
     // If there's no entered command, do nothing
     
