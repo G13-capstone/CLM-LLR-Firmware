@@ -25,7 +25,6 @@ int main(void)
 {
   // Loop, printing Hello, World as well as a number, which increments every loop
   // Serves as the basic UAOS, which will eventually carry out any intended features
-  //uint16_t count = 0;
   Uart_IO uart_io_driver = Uart_IO::Uart_IO(GPIO_C, 6, GPIO_C, 7, Uart_IO::BAUD_9600);
   Uart_IO keyboard_io_driver = Uart_IO::Uart_IO(GPIO_C, 5, GPIO_C, 4, Uart_IO::BAUD_9600);
   L lcd_io_driver;
@@ -35,66 +34,11 @@ int main(void)
   // puts(lcd_io_driver, "hello");
 
   CommandHandler commandHandler = CommandHandler();
-  // char input[MAX_INPUT_TOKENS * MAX_ARGUMENT_LENGTH];
-  // char command[MAX_COMMAND_LENGTH];
-  // int charInd = 0;
 
   while (true) {
-    commandHandler.handle_command(keyboard_io_driver, uart_io_driver); // Display to COM Terminal
-    // commandHandler.handle_command(keyboard_io_driver, lcd_io_driver); // Display to LCD
+    // commandHandler.handle_command(keyboard_io_driver, uart_io_driver); // Display to COM Terminal
+    commandHandler.handle_command(keyboard_io_driver, lcd_io_driver); // Display to LCD
     commandHandler.loop_counter++;
-
-    // int c = getc(keyboard_io_driver);
-    // if (c >= 0) {
-    //   // if ('a' <= c && c <= 'z') {
-    //   //   c = 'A' + c - 'a';
-    //   // } else
-    //   if ('A' <= c && c <= 'Z') {
-    //     c = 'a' + c - 'A';
-    //   }
-    //   // Show keyboard input on output devices
-    //   putc(uart_io_driver, c);
-    //   putc(lcd_io_driver, c);
-
-    //   // Take input and form a string
-    //   if (c != '\r') {
-    //     input[charInd] = c;
-    //     charInd++;
-    //   } else if (c == '\r') {
-    //     input[charInd] = '\0';
-    //     charInd = 0;
-
-    //     // Process input into tokens
-    //     char inputTokens[MAX_INPUT_TOKENS][MAX_ARGUMENT_LENGTH];
-    //     int i = 0; // For characters in input
-    //     int j = 0; // For argument tokens
-    //     int k = 0; // For characters of argument tokens
-    //     while (input[i] != '\0') {
-    //       if (input[i] == ' ') {
-    //           inputTokens[j][k] = '\0';
-    //           j++;
-    //           k = 0;
-    //       } else {
-    //           inputTokens[j][k] = input[i];
-    //           k++;
-    //       }
-    //       i++;
-    //     }
-    //     inputTokens[j][k] = '\0';
-
-    //     char *command = inputTokens[0];
-
-    //     // Verify command
-    //     if (compare_string(command, "touch")) {
-    //       puts(uart_io_driver, inputTokens[1]);
-    //       puts(uart_io_driver, " created.\n");
-    //     } else {
-    //       putc(uart_io_driver, '\"');
-    //       puts(uart_io_driver, command);
-    //       puts(uart_io_driver, "\" not found!");
-    //     }
-    //   }
-    // }
   }
 
   return 0;
