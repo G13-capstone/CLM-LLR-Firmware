@@ -4,17 +4,17 @@
 #include "main.h"
 #include "io.h"
 
-bool compare_string(char *str1, char *str2) {
-    int i = 0;
-    while (true) {
-        if (str1[i] == '\0' && str2[i] == '\0') {
-            return true;
-        } else if (str1[i] != str2[i]) {
-            return false;
-        }
-        i++;
-    }
-}
+// bool compare_string(char *str1, char *str2) {
+//     int i = 0;
+//     while (true) {
+//         if (str1[i] == '\0' && str2[i] == '\0') {
+//             return true;
+//         } else if (str1[i] != str2[i]) {
+//             return false;
+//         }
+//         i++;
+//     }
+// }
 
 // Prints "UAOS CLI: " if it wasn't printed before
 void CommandHandler::print_CLI(IO &outputStream) {
@@ -87,23 +87,32 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
             }
             l++;
         }
+
+        // convert inputToken arguments to char array
+        char* arguments[MAX_INPUT_TOKENS+1];
+
+        for (int z=1; z<j+1;z++) {
+            arguments[z-1] = inputTokens[z];
+        }
+
+        arguments[j] = "\0";
         
         // Validate command by trying to find it in the command library
             // Call function with switch statement
             // If function found, execute it
 
-            // search_command(command, )
+            search_command(command, arguments ,outputStream);
             
             // Debug for command recognition
-            if (compare_string(command, "touch")) {
-                putc(outputStream, '\r');
-                puts(outputStream, inputTokens[1]);
-                puts(outputStream, " created.\r");
-            } else {
-                puts(outputStream, "\r\"");
-                puts(outputStream, command);
-                puts(outputStream, "\" not found!\r");
-            }
+            // if (compare_string(command, "touch")) {
+            //     putc(outputStream, '\n');
+            //     puts(outputStream, inputTokens[1]);
+            //     puts(outputStream, " created.\n");
+            // } else {
+            //     puts(outputStream, "\n\"");
+            //     puts(outputStream, command);
+            //     puts(outputStream, "\" not found!\n");
+            // }
 
                 // If there's an error during execution, print error
 
