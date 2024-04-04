@@ -1,5 +1,6 @@
 #include <XPD.h>
 #include "command_handler.h"
+#include "command_library.h"
 #include "main.h"
 #include "io.h"
 
@@ -90,6 +91,8 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
         // Validate command by trying to find it in the command library
             // Call function with switch statement
             // If function found, execute it
+
+            // search_command(command, )
             
             // Debug for command recognition
             if (compare_string(command, "touch")) {
