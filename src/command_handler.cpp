@@ -4,18 +4,6 @@
 #include "main.h"
 #include "io.h"
 
-// bool compare_string(char *str1, char *str2) {
-//     int i = 0;
-//     while (true) {
-//         if (str1[i] == '\0' && str2[i] == '\0') {
-//             return true;
-//         } else if (str1[i] != str2[i]) {
-//             return false;
-//         }
-//         i++;
-//     }
-// }
-
 // Prints "UAOS CLI: " if it wasn't printed before
 void CommandHandler::print_CLI(IO &outputStream) {
     if (!CLI_printed) {
@@ -98,34 +86,11 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
         arguments[j] = "\0";
         
         // Validate command by trying to find it in the command library
-            // Call function with switch statement
-            // If function found, execute it
-
-            search_command(command, arguments ,outputStream);
+        search_command(command, arguments ,outputStream);
             
-            // Debug for command recognition
-            // if (compare_string(command, "touch")) {
-            //     putc(outputStream, '\n');
-            //     puts(outputStream, inputTokens[1]);
-            //     puts(outputStream, " created.\n");
-            // } else {
-            //     puts(outputStream, "\n\"");
-            //     puts(outputStream, command);
-            //     puts(outputStream, "\" not found!\n");
-            // }
-
-                // If there's an error during execution, print error
-
-            // If function not found, print not found
-
         // Reset flags
         CLI_printed = false;
         input_entered = false;
-
-        // Debug - Show what loop the command is processed on
-        // xpd_puts("Command processed on loop: ");
-        // xpd_echo_int(loop_counter, XPD_Flag_SignedDecimal);
-        // xpd_puts("\n");
     } 
     // If there's no entered command, do nothing
     
