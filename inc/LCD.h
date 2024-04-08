@@ -43,6 +43,8 @@ class LCD_STARTUP : public IO {
 public:
 	LCD_STARTUP() {
 		init();
+		this->row = 0;
+		this->col = 0;
 	}
 
 	int read_byte(void) override {
@@ -77,6 +79,8 @@ public:
 			row = 19; // we count cols starting w/0
 		}
 		writeIns((uint16_t)CURSORLINE + col + row_offsets[row]);
+		this->row = row;
+		this->col = col;
 	}
 
 	void initializeDOGM204() // Initialization of the EA DOGM204, as in the specs.
@@ -143,7 +147,28 @@ public:
 
 	void writeChar(uint16_t p_char)
 	{
-		writeData(p_char);
+		switch (p_char) {
+		case '\r':
+			setCursor(0, this->row);
+			break;
+		case '\n':
+			this->row++;
+			if (this->row > 3) {
+				this->row = 0;
+			}
+			setCursor(this->col, this->row);
+			break;
+		default:
+			writeData(p_char);
+			this->col++;
+			if (this->col > 19) {
+				this->col = 0;
+				this->row++;
+			}
+			if (this->row > 3) {
+				this->row = 0;
+			}
+		}
 	}
 
 	void takeInput(uint16_t myString)
@@ -171,6 +196,8 @@ public:
 	}*/
 
 private:
+	uint16_t row;
+	uint16_t col;
 	void writeIns(uint16_t insCode)
 	{
 		SPI_write_LSB(0x1F, SPI0);                    // Send 5 synchronisation bits, RS = 0, R/W = 0
