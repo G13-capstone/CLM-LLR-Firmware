@@ -29,15 +29,12 @@ int main(void)
   Uart_IO keyboard_io_driver = Uart_IO::Uart_IO(GPIO_C, 5, GPIO_C, 4, Uart_IO::BAUD_9600);
   L lcd_io_driver;
 
-  // Debug
-  // puts(uart_io_driver, "Hello\r\n");
-  // puts(lcd_io_driver, "hello");
-
   CommandHandler commandHandler = CommandHandler();
 
   while (true) {
-    // commandHandler.handle_command(keyboard_io_driver, uart_io_driver); // Display to COM Terminal
-    commandHandler.handle_command(keyboard_io_driver, lcd_io_driver); // Display to LCD
+    // commandHandler.handle_command(keyboard_io_driver, uart_io_driver); // Input keyboard, output to COM Terminal
+    commandHandler.handle_command(keyboard_io_driver, lcd_io_driver); // Input keyboard, output to LCD
+    // commandHandler.handle_command(uart_io_driver, uart_io_driver); // Input COM terminal, output COM terminal
     commandHandler.loop_counter++;
   }
 
