@@ -19,14 +19,14 @@
 // Prints "UAOS CLI: " if it wasn't printed before
 void CommandHandler::print_CLI(IO &outputStream) {
     if (!CLI_printed) {
-        puts(outputStream, "\rUAOS CLI: ");
+        puts(outputStream, "UAOS CLI: ");
         CLI_printed = true;
     }
 }
 
 // Gets input from the MinGW terminal via the XPD
 void CommandHandler::get_input(IO &inputStream, IO &outputStream) {
-    // print_CLI(outputStream); // Prints on top of other output
+    print_CLI(outputStream); // Prints on top of other output
     while (true) {
         // Get input char by char
         int c = getc(inputStream);
