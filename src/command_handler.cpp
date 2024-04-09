@@ -93,22 +93,22 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
             // If function found, execute it
             
             // Debug for command recognition
-            if (compare_string(command, "touch")) {
-                putc(outputStream, '\r');
-                puts(outputStream, inputTokens[1]);
-                puts(outputStream, " created.\r");
-            } else {
-                puts(outputStream, "\r\"");
-                puts(outputStream, command);
-                puts(outputStream, "\" not found!\r");
-            }
+            // if (compare_string(command, "touch")) {
+            //     putc(outputStream, '\r');
+            //     puts(outputStream, inputTokens[1]);
+            //     puts(outputStream, " created.\r");
+            // } else {
+            //     puts(outputStream, "\r\"");
+            //     puts(outputStream, command);
+            //     puts(outputStream, "\" not found!\r");
+            // }
 
                 // If there's an error during execution, print error
 
             // If function not found, print not found
 
             if (compare_string(command, "chartoint")) {
-                if (j >= 2) { 
+                if (j >= 1) { 
                     int intValue = charToInt(inputTokens[1][0]);
                     char intStr[12];
                     intToString(intValue, intStr);
@@ -118,43 +118,80 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
                 }
             
             } else if (compare_string(command, "inttochar")) {
-                if (j >= 2) {
+                if (j >= 1) {
                     char charValue = intToChar(stringToInt(inputTokens[1]));
                     putc(outputStream, charValue);
                     putc(outputStream, '\r'); 
                 } else {
                     puts(outputStream, "Error: Not enough arguments for inttochar\r");
+                } 
+            } else if (compare_string(command, "chartobyte")) {
+                if (j >= 2) {
+                    unsigned char byteValue = charToByte(inputTokens[1][0]);
+                    putc(outputStream, byteValue);
+                    putc(outputStream, '\r');
+                } else {
+                    puts(outputStream, "Error: Not enough arguments for chartobyte\r");
+                }
+            } else if (compare_string(command, "bytetochar")) {
+                if (j >= 2) {
+                    char charValue = byteToChar((unsigned char)stringToInt(inputTokens[1]));
+                    putc(outputStream, charValue);
+                    putc(outputStream, '\r');
+                } else {
+                    puts(outputStream, "Error: Not enough arguments for bytetochar\r");
+                }
+            } else if (compare_string(command, "signedtounsigned")) {
+                if (j >= 2) {
+                    unsigned int unsignedValue = signedToUnsigned(stringToInt(inputTokens[1]));
+                    putc(outputStream, unsignedValue);
+                    putc(outputStream, '\r');
+                } else {
+                    puts(outputStream, "Error: Not enough arguments for signedtounsigned\r");
+                }
+            } else if (compare_string(command, "unsignedtosigned")) {
+                if (j >= 2) {
+                    int intValue = unsignedToSigned((unsigned int)stringToInt(inputTokens[1]));
+                    char intStr[12];
+                    intToString(intValue, intStr);
+                    puts(outputStream, intStr);
+                } else {
+                    puts(outputStream, "Error: Not enough arguments for unsignedtosigned\r");
+                }
+            } else if (compare_string(command, "bytetoint")) {
+                if (j >= 2) {
+                    int intValue = byteToInt((unsigned char)inputTokens[1][0]);
+                    char intStr[12];
+                    intToString(intValue, intStr);
+                    puts(outputStream, intStr);
+                } else {
+                    puts(outputStream, "Error: Not enough arguments for bytetoint\r");
+                }
+            } else if (compare_string(command, "inttobyte")) {
+                if (j >= 2) {
+                    unsigned char byteValue = intToByte(stringToInt(inputTokens[1]));
+                    putc(outputStream, byteValue);
+                    putc(outputStream, '\r');
+                } else {
+                    puts(outputStream, "Error: Not enough arguments for bytetoint\r");
                 }}
-            // } else if (compare_string(command, "chartobyte")) {
+            // } else if (compare_string(command, "floattoint")) {
             //     if (j >= 2) {
-            //         unsigned char byteValue = charToByte(inputTokens[1][0]);
-                    
-            //     } else {
-            //         puts(outputStream, "Error: Not enough arguments for chartobyte\r");
-            //     }
-            // } else if (compare_string(command, "bytetochar")) {
-            //     if (j >= 2) {
-            //         char charValue = byteToChar((unsigned char)stringToInt(inputTokens[1]));
-            //         putc(outputStream, charValue);
-            //         putc(outputStream, '\r');
-            //     } else {
-            //         puts(outputStream, "Error: Not enough arguments for bytetochar\r");
-            //     }
-            // } else if (compare_string(command, "signedtounsigned")) {
-            //     if (j >= 2) {
-            //         unsigned int unsignedValue = signedToUnsigned(stringToInt(inputTokens[1]));
-
-            //     } else {
-            //         puts(outputStream, "Error: Not enough arguments for signedtounsigned\r");
-            //     }
-            // } else if (compare_string(command, "unsignedtosigned")) {
-            //     if (j >= 2) {
-            //         int intValue = unsignedToSigned((unsigned int)stringToInt(inputTokens[1]));
+            //         int intValue = floatToInt(stringToFloat(inputTokens[1]));
             //         char intStr[12];
             //         intToString(intValue, intStr);
             //         puts(outputStream, intStr);
             //     } else {
-            //         puts(outputStream, "Error: Not enough arguments for unsignedtosigned\r");
+            //         puts(outputStream, "Error: Not enough arguments for floattoint\r");
+            //     }
+            // } else if (compare_string(command, "inttofloat")) {
+            //     if (j >= 2) {
+            //         float floatValue = intToFloat(stringToInt(inputTokens[1]));
+            //         char floatStr[32];
+            //         floatToString(floatValue, floatStr, 2);
+            //         puts(outputStream, floatStr);
+            //     } else {
+            //         puts(outputStream, "Error: Not enough arguments for inttofloat\r");
             //     }
             // }
 
@@ -170,7 +207,7 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
             //     char resultStr[32];
             //     floatToString(result, resultStr, 2);
 
-            //     puts(outputStream, firstNumStr);
+            //     puts(outputStream, resultStr);}
             
             // } else if (compare_string(command, "subtract")) {
             //     char* firstNumStr = inputTokens[1];

@@ -7,6 +7,7 @@
 #include "uart_io.h"
 #include "LCD.h"
 #include "io.h"
+#include "utilities.h"
 
 // sys_clock_wait can only wait a maximum of 65535 ticks
 // use a loop to get a longer delay.
@@ -36,9 +37,11 @@ int main(void)
   CommandHandler commandHandler = CommandHandler();
 
   while (true) {
-    // commandHandler.handle_command(keyboard_io_driver, uart_io_driver); // Display to COM Terminal
-    commandHandler.handle_command(keyboard_io_driver, lcd_io_driver); // Display to LCD
-    commandHandler.loop_counter++;
+    // commandHandler.handle_command(uart_io_driver, uart_io_driver); // Display to COM Terminal
+    // commandHandler.handle_command(uart_io_driver, lcd_io_driver); // Display to LCD
+    // commandHandler.loop_counter++;
+    // xpd_putc(byteToChar(0x41));
+    xpd_echo_int(byteToInt(0x41),XPD_Flag_SignedDecimal);
   }
 
   return 0;

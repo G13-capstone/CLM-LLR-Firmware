@@ -85,30 +85,30 @@ void floatToString(float value, char* buffer, int decimalPlaces) {
     // Convert the integer part to string
     int intPart = (int)value;
     int i = 0;
-    do {
+    for (i = 0; intPart > 0 || i == 0; i++) {
         buffer[i] = (char)(intPart % 10 + '0');
-        i++;
         intPart /= 10;
-    } while (intPart > 0);
+    }
 
-    // // Reverse the integer part string
-    // for (int j = 0; j < i / 2; ++j) {
-    //     char temp = buffer[j];
-    //     buffer[j] = buffer[i - j - 1];
-    //     buffer[i - j - 1] = temp;
-    // }
 
-    // buffer[i++] = '.'; // Decimal point
+    // Reverse the integer part string
+    for (int j = 0; j < i / 2; ++j) {
+        char temp = buffer[j];
+        buffer[j] = buffer[i - j - 1];
+        buffer[i - j - 1] = temp;
+    }
 
-    // // Convert the decimal part to string
-    // float remainder = value - (int)value;
-    // for (int dec = 0; dec < decimalPlaces; ++dec) {
-    //     remainder *= 10;
-    //     buffer[i++] = (char)((int)remainder % 10 + '0');
-    //     remainder -= (int)remainder;
-    // }
+    buffer[i++] = '.'; // Decimal point
 
-    // buffer[i] = '\0'; // Null-terminate the string
+    // Convert the decimal part to string
+    float remainder = value - (int)value;
+    for (int dec = 0; dec < decimalPlaces; ++dec) {
+        remainder *= 10;
+        buffer[i++] = (char)((int)remainder % 10 + '0');
+        remainder -= (int)remainder;
+    }
+
+    buffer[i] = '\0'; // Null-terminate the string
 }
 
 void intToString(int value, char* buffer) {
@@ -170,28 +170,14 @@ void intToString(int value, char* buffer) {
 
 
 int stringToInt(const char* str) {
-    if (!str) return 0; // Handle null pointer
-
-    int num = 0;
-    int sign = 1;  // Assume positive number
-
-    // Check for negative sign
-    if (*str == '-') {
-        sign = -1;
-        str++; // Move to the next character
-    }
-
-    // Convert string to integer
-    while (*str) {
-        if (*str < '0' || *str > '9') {
-            break; // Stop if character is not a digit
+    int result = 0; 
+    // Iterate through all characters of the input string
+    for (int i = 0; str[i] != '\0'; ++i) {
+        if (str[i] < '0' || str[i] > '9') { // If current character is not a number, return 0
+            return 0;
         }
-
-        // Multiply current number by 10 and add the new digit
-        num = num * 10 + (*str - '0');
-
-        str++; // Move to the next character
+        result = result * 10 + str[i] - '0'; // Accumulate the result by adding the current digit
     }
-
-    return sign * num;
+    return result; // Return the result when end of string is reached
 }
+
