@@ -52,64 +52,6 @@ int floatToInt(float f) {
     return static_cast<int>(f);
 }
 
-float stringToFloat(const char* str) {
-    float result = 0.0f;
-    float divisor = 1.0f;
-    bool decimalPointEncountered = false;
-
-    while (*str != '\0') {
-        if (*str == '.') {
-            decimalPointEncountered = true;
-        } else {
-            int digit = *str - '0';
-            if (digit >= 0 && digit <= 9) {
-                if (decimalPointEncountered) {
-                    divisor *= 10.0f;
-                    result += (float)digit / divisor;
-                } else {
-                    result = result * 10.0f + (float)digit;
-                }
-            } else {
-                
-            }
-        }
-        ++str;
-    }
-
-    return result;
-}
-
-void floatToString(float value, char* buffer, int decimalPlaces) {
-    if (!buffer) return;
-    
-    // Convert the integer part to string
-    int intPart = (int)value;
-    int i = 0;
-    for (i = 0; intPart > 0 || i == 0; i++) {
-        buffer[i] = (char)(intPart % 10 + '0');
-        intPart /= 10;
-    }
-
-
-    // Reverse the integer part string
-    for (int j = 0; j < i / 2; ++j) {
-        char temp = buffer[j];
-        buffer[j] = buffer[i - j - 1];
-        buffer[i - j - 1] = temp;
-    }
-
-    buffer[i++] = '.'; // Decimal point
-
-    // Convert the decimal part to string
-    float remainder = value - (int)value;
-    for (int dec = 0; dec < decimalPlaces; ++dec) {
-        remainder *= 10;
-        buffer[i++] = (char)((int)remainder % 10 + '0');
-        remainder -= (int)remainder;
-    }
-
-    buffer[i] = '\0'; // Null-terminate the string
-}
 
 void intToString(int value, char* buffer) {
     if (!buffer) return;
@@ -180,4 +122,82 @@ int stringToInt(const char* str) {
     }
     return result; // Return the result when end of string is reached
 }
+
+unsigned short intToHalfFloat(int intValue) {
+     unsigned short result = 0;
+
+    // Handle the sign
+    if (intValue < 0) {
+        result |= 1 << 15; // Set the sign bit
+        intValue = -intValue;     
+    }
+
+    if (intValue == 0) {
+        return result; 
+    }
+
+    // Find the position of the most significant bit
+    int msbPos = 0;
+    for (int i = 15; i >= 0; --i) {
+        if (intValue & (1 << i)) {
+            msbPos = i;
+            break;
+        }
+    }
+
+    // Calculate exponent and mantissa
+    int exponent = msbPos + 15; // Adding bias, which is 15
+    if (exponent > 31) {
+        // Overflow, set to infinity
+        result |= 0x7C00; // Exponent all ones, mantissa zero (infinity)
+        return result;
+    }
+
+    // Set the exponent
+    result |= ((exponent & 0x1F) << 10); // The second to the 6th bit
+
+    // Set the mantissa
+    int mantissa = (intValue & ~(1 << msbPos)) << (10 - msbPos); // The 7th to the 16th bit
+    result |= (mantissa >> (msbPos - (exponent - 15)));
+
+    return result;
+}
+
+
+int halfFloatToInt(unsigned short half) {
+    // Extract sign, exponent, and mantissa
+    bool sign = (half & 0x8000) >> 15; // first bit
+    int exponent = (half & 0x7C00) >> 10; // second bit to the 6th bit
+    int mantissa = half & 0x03FF; // 7th bit to 16th bit
+
+    // Check for zero 
+    if (exponent == 0 && mantissa == 0) {
+        return 0;
+    }
+
+    // Normalize the mantissa
+    mantissa |= 0x0400; // Add the implicit leading 1 for normalized numbers
+
+    // Remove the bias, which is 15 and the implicit bit 1
+    exponent -= (15 + 1);
+
+    int result = mantissa;
+
+    if (exponent > 0) {
+        // Positive exponent: scale up the mantissa
+        result <<= exponent;
+    } else if (exponent < 0) {
+        // Negative exponent: scale down the mantissa
+        result >>= -exponent;
+    }
+
+    // Apply the sign
+    if (sign) {
+        result = -result;
+    }
+
+    return result;
+}
+
+
 
