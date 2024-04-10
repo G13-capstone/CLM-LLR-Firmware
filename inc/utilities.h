@@ -33,12 +33,12 @@ int floatToInt(float f);
 
 // Arithmetic operations
 
-float stringToFloat(const char* str);
-
-void floatToString(float value, char* buffer, int decimalPlaces);
-
 void intToString(int value, char *str);
 
 int stringToInt(const char *str);
+
+unsigned short intToHalfFloat(int intValue);
+
+int halfFloatToInt(unsigned short halfFloat);
 
 #endif // UTILITIES_H
