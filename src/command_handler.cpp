@@ -108,7 +108,7 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
             // If function not found, print not found
 
             if (compare_string(command, "chartoint")) {
-                if (j >= 1) { 
+                if (j >= 2) { 
                     int intValue = charToInt(inputTokens[1][0]);
                     char intStr[12];
                     intToString(intValue, intStr);
@@ -118,7 +118,7 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
                 }
             
             } else if (compare_string(command, "inttochar")) {
-                if (j >= 1) {
+                if (j >= 2) {
                     char charValue = intToChar(stringToInt(inputTokens[1]));
                     putc(outputStream, charValue);
                     putc(outputStream, '\r'); 
@@ -177,19 +177,19 @@ void CommandHandler::handle_command(IO &inputStream, IO &outputStream) {
                 }}
             // } else if (compare_string(command, "floattoint")) {
             //     if (j >= 2) {
-            //         int intValue = floatToInt(stringToFloat(inputTokens[1]));
+            //         int scaledInt = stringToScaledInt(inputTokens[1], 1000);
             //         char intStr[12];
-            //         intToString(intValue, intStr);
+            //         intToString(scaledInt, intStr);
             //         puts(outputStream, intStr);
             //     } else {
             //         puts(outputStream, "Error: Not enough arguments for floattoint\r");
             //     }
             // } else if (compare_string(command, "inttofloat")) {
             //     if (j >= 2) {
-            //         float floatValue = intToFloat(stringToInt(inputTokens[1]));
-            //         char floatStr[32];
-            //         floatToString(floatValue, floatStr, 2);
-            //         puts(outputStream, floatStr);
+            //         int scaledValue = stringToInt(inputTokens[1]);
+            //         char displayStr[20];
+            //         scaledIntToString(scaledValue, 1000, displayStr);
+            //         puts(outputStream, displayStr);
             //     } else {
             //         puts(outputStream, "Error: Not enough arguments for inttofloat\r");
             //     }

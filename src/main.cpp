@@ -41,7 +41,13 @@ int main(void)
     // commandHandler.handle_command(uart_io_driver, lcd_io_driver); // Display to LCD
     // commandHandler.loop_counter++;
     // xpd_putc(byteToChar(0x41));
-    xpd_echo_int(byteToInt(0x41),XPD_Flag_SignedDecimal);
+    // int originalInt = 5;
+    // unsigned short halfFloat = intToHalfFloat(originalInt);
+
+    unsigned short half_precision_float = 0x4500; // Example half-precision float
+    int integer_value = halfFloatToInt(half_precision_float);
+    // xpd_echo_int(halfFloat, XPD_Flag_Hex);
+    xpd_echo_int(5, XPD_Flag_UnsignedDecimal);
   }
 
   return 0;
