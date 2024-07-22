@@ -1,5 +1,5 @@
 # CLM-LLR-Firmware
-Firmware for the UofA C3 board's XInC2 processor. Implements 2 features for a custom OS in the form of 2 modules - a Command Line Module (CLM) and a Low-level Routine (LLR) Module.
+Firmware for the UofA C3 board's XInC2 processor. Implements 2 features for a custom OS in the form of 2 modules - a Command Line Module (CLM) and a Low-level Routine (LLR) Module. For a brief project overview, please check out our [GitHub wiki](https://github.com/G13-capstone/CLM-LLR-Firmware/wiki)!
 
 ## Required Software for Building
 Please ensure that the following are installed with the "path" option enabled and "long path names" option disabled:
